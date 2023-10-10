@@ -53,12 +53,13 @@ public class Test_TensorFlowObjectDetection extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "red_crown.tflite";
+    private static final String TFOD_MODEL_ASSET = "vs_crown.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_unquant.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
+            "BlueCrown",
             "RedCrown"
     };
 
@@ -189,6 +190,16 @@ public class Test_TensorFlowObjectDetection extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+
+            if (x < 170) {
+                telemetry.addData("Left","");
+            }
+            if (x > 180 && x < 450) {
+                telemetry.addData("Middle","");
+            }
+            if (x > 475) {
+                telemetry.addData("Right","");
+            }
         }   // end for() loop
 
     }   // end method telemetryTfod()

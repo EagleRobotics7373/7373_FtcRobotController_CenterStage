@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 /**
@@ -39,6 +40,11 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("heading deg", (poseEstimate.getHeading() *180 / Math.PI));
+            telemetry.addLine();
+            telemetry.addData("imu yaw", drive.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("imu pitch", drive.imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES));
+            telemetry.addData("imu roll", drive.imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES));
             telemetry.update();
         }
     }
