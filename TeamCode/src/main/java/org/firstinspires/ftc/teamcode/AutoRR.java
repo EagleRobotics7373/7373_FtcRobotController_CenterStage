@@ -33,35 +33,36 @@ public class AutoRR extends LinearOpMode {
         initTfod();
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(14.5, -63.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
 
         //Edit the sequences here
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(10, 10), 0)
-                .splineToLinearHeading(new Pose2d(-10, -10, Math.toRadians(45)), 0)
+                .back(20)
+                .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
+                .waitSeconds(1.5)
+                .forward(8)
+                .lineToConstantHeading(new Vector2d(60, -60))
                 .build();
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, -45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, -23))
-                .waitSeconds(1.5)
-                .forward(20)
-                .splineTo(new Vector2d(60, -60), Math.toRadians(270))
-                .build();
+                    .waitSeconds(1.5)
+                    .lineToConstantHeading(new Vector2d(8, -45))
+                    .waitSeconds(1.5)
+                    .lineToConstantHeading(new Vector2d(8, -32))
+                    .waitSeconds(1.5)
+                    .forward(10)
+                    .lineToConstantHeading(new Vector2d(60, -60))
+                    .build();
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(22.5, -45))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(23, -30))
+                .lineToConstantHeading(new Vector2d(22.5, -40))
                 .waitSeconds(1.5)
                 .forward(20)
-                .splineTo(new Vector2d(5, -60), Math.toRadians(-180))
-                .back(70)
+                .lineToConstantHeading(new Vector2d(60, -60))
                 .build();
-
         waitForStart();
 
         if (!isStopRequested() && LEFT)
