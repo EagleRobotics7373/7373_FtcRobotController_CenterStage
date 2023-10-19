@@ -3,23 +3,22 @@
     <Webcam name="Webcam 1" serialNumber="E4211B40" />
     <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
         <LynxModule name="Control Hub" port="173">
-            <Matrix12vMotor name="rightFront" port="2" />
-            <Matrix12vMotor name="rightRear" port="1" />
-            <Matrix12vMotor name="rightArm" port="0" />
-            <Matrix12vMotor name="rightSpin" port="3" />
-            <Servo name="bucketRight" port="0"/>
+            <Matrix12vMotor name="leftRear" port="1" />
+            <Matrix12vMotor name="leftFront" port="2" />
+            <Matrix12vMotor name="leftArm" port="0" />
+            <Matrix12vMotor name="leftSpin" port="3" />
+            <Servo name="bucketStop" port="0"/>
 
 
             <LynxEmbeddedIMU name="imu" port="0" bus="0"/>
 
         </LynxModule>
         <LynxModule name="Expansion Hub" port="1">
-            <Matrix12vMotor name="leftRear" port="1" />
-            <Matrix12vMotor name="leftFront" port="2" />
-            <Matrix12vMotor name="leftArm" port="0" />
-            <Matrix12vMotor name="leftSpin" port="3" />
-            <Servo name="bucketLeft" port="0"/>
-
+            <Matrix12vMotor name="rightFront" port="2" />
+            <Matrix12vMotor name="rightRear" port="1" />
+            <Matrix12vMotor name="rightArm" port="0" />
+            <Matrix12vMotor name="rightSpin" port="3" />
+            <Servo name="bucket" port="0"/>
         </LynxModule>
     </LynxUsbDevice>
 </Robot>
