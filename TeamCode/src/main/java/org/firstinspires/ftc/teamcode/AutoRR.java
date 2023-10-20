@@ -31,29 +31,6 @@ public class AutoRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initTfod();
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-
-            telemetry.addData(""," ");
-            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-
-            if (x < 300) {
-                LEFT = true;
-                telemetry.addData("Left","");
-            }
-            if (x > 350) {
-                MIDDLE = true;
-                telemetry.addData("Middle","");
-            }
-            else {
-                RIGHT = true;
-                telemetry.addData("Right","");
-            }
-        }
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -61,15 +38,20 @@ public class AutoRR extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-        //Edit the sequences here
-        TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .back(20)
-                .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
-                .waitSeconds(1.5)
-                .forward(4)
-                .lineToConstantHeading(new Vector2d(60, -60))
-                .build();
-        TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
+        waitForStart();
+
+        if (LEFT) {
+            TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
+                    .back(20)
+                    .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
+                    .waitSeconds(1.5)
+                    .forward(4)
+                    .lineToConstantHeading(new Vector2d(60, -60))
+                    .build();
+            drive.followTrajectorySequence(trajSeqLEFT);
+        }
+        if (MIDDLE) {
+            TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
                     .waitSeconds(1.5)
                     .lineToConstantHeading(new Vector2d(8, -45))
                     .waitSeconds(1.5)
@@ -78,23 +60,20 @@ public class AutoRR extends LinearOpMode {
                     .forward(10)
                     .lineToConstantHeading(new Vector2d(60, -60))
                     .build();
-        TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -40))
-                .waitSeconds(1.5)
-                .forward(20)
-                .lineToConstantHeading(new Vector2d(60, -60))
-                .build();
-        waitForStart();
-
-        if (!isStopRequested() && LEFT)
-            drive.followTrajectorySequence(trajSeqLEFT);
-        if (!isStopRequested() && MIDDLE)
             drive.followTrajectorySequence(trajSeqMIDDLE);
-        if (!isStopRequested() && RIGHT)
+        }
+        if (RIGHT) {
+            TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(1.5)
+                    .lineToConstantHeading(new Vector2d(22.5, -45))
+                    .waitSeconds(1.5)
+                    .lineToConstantHeading(new Vector2d(22.5, -40))
+                    .waitSeconds(1.5)
+                    .forward(20)
+                    .lineToConstantHeading(new Vector2d(60, -60))
+                    .build();
             drive.followTrajectorySequence(trajSeqRIGHT);
+        }
     }
 
     private void initTfod() {
@@ -117,5 +96,23 @@ public class AutoRR extends LinearOpMode {
         visionPortal = builder.build();
         tfod.setMinResultConfidence(0.75f);
         visionPortal.setProcessorEnabled(tfod, true);
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+
+            if (x < 300) {
+                LEFT = true;
+                telemetry.addData("Left","");
+            }
+            if (x > 350) {
+                MIDDLE = true;
+                telemetry.addData("Middle","");
+            }
+            else {
+                RIGHT = true;
+                telemetry.addData("Right","");
+            }
+        }
     }
 }
