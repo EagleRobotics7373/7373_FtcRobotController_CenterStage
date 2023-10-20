@@ -19,16 +19,14 @@ public class Beta_TeleOp extends LinearOpMode {
         DcMotor leftRearMotor = hardwareMap.get(DcMotor.class,"leftRear");
         DcMotor leftSpin = hardwareMap.get(DcMotor.class,"leftSpin");
         DcMotor rightSpin = hardwareMap.get(DcMotor.class,"rightSpin");
-        DcMotorEx leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
-        DcMotorEx rightArm = hardwareMap.get(DcMotorEx.class,"rightArm");
+        DcMotor leftArm = hardwareMap.get(DcMotor.class,"leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class,"rightArm");
         Servo bucket = hardwareMap.get(Servo.class,"bucket");
         Servo bucketStop = hardwareMap.get(Servo.class,"bucketStop");
 
-        rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double speed;
+        double position = 0;
         waitForStart();
-
         while (opModeIsActive()) {
             //Speed Control
             if (gamepad1.right_bumper) {
@@ -49,52 +47,41 @@ public class Beta_TeleOp extends LinearOpMode {
             rightRearMotor.setPower(-pivot + vertical - horizontal);
             leftRearMotor.setPower(-pivot - vertical - horizontal);
 
+            double armpower = (gamepad2.right_stick_y / 4) + .1;
+            leftArm.setPower(armpower);
+            rightArm.setPower(armpower);
+
+            if(leftArm.getCurrentPosition() > 10 && leftArm.getCurrentPosition() < 50) {
+                bucket.setPosition(0);
+            } else if(leftArm.getCurrentPosition() > 50) {
+                bucket.setPosition(.7);
+            } else {
+                bucket.setPosition(.2);
+            }
+
+            if(gamepad2.a) {
+                bucketStop.setPosition(.6);
+            }
             if(gamepad2.x) {
-                leftArm.setTargetPosition(50);
-                rightArm.setTargetPosition(50);
-                leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bucketStop.setPosition(0);
             }
             if(gamepad2.y) {
-                leftArm.setTargetPosition(100);
-                rightArm.setTargetPosition(100);
-                leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bucket.setPosition(position);
             }
-            if(gamepad2.b) {
-                leftArm.setTargetPosition(150);
-                rightArm.setTargetPosition(150);
-                leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if(gamepad2.a) {
-                leftArm.setTargetPosition(200);
-                rightArm.setTargetPosition(200);
-                leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if(gamepad2.dpad_down) {
-                leftArm.setTargetPosition(250);
-                rightArm.setTargetPosition(250);
-                leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if(gamepad2.dpad_left) {
-                leftArm.setTargetPosition(300);
-                rightArm.setTargetPosition(300);
-                leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if(gamepad2.dpad_right) {
-                leftArm.setTargetPosition(0);
-                rightArm.setTargetPosition(0);
-            }
+
             if(gamepad2.dpad_up) {
-                leftArm.setTargetPosition(0);
-                rightArm.setTargetPosition(0);
+                position += .1;
+                sleep(500);
+            }
+
+            if(gamepad2.dpad_down) {
+                position -= .1;
+                sleep(500);
             }
             telemetry.addData("position",leftArm.getCurrentPosition());
             telemetry.addData("target",leftArm.getTargetPosition());
+            telemetry.addData("position",position);
+            telemetry.addData("power",armpower);
             telemetry.update();
         }
 
