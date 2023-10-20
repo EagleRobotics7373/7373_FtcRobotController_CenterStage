@@ -15,8 +15,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Scoring Zone Red")
-public class AutoRR extends LinearOpMode {
+@Autonomous(name="Auto Warehouse Zone Red")
+public class AutoLRED extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
     boolean RIGHT = false;
@@ -33,7 +33,7 @@ public class AutoRR extends LinearOpMode {
         initTfod();
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-16.0, -62.5, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
 

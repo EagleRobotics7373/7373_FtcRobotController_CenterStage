@@ -15,8 +15,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Scoring Zone Red")
-public class AutoRR extends LinearOpMode {
+@Autonomous(name="Auto Scoring Zone Blue")
+public class AutoLB extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
     boolean RIGHT = false;
@@ -31,37 +31,37 @@ public class AutoRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initTfod();
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        SampleMecanumDrive drive =new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
         //Edit the sequences here
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
                 .back(20)
-                .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(.5, 34), Math.toRadians(180))
                 .waitSeconds(1.5)
                 .forward(4)
-                .lineToConstantHeading(new Vector2d(60, -60))
+                .lineToConstantHeading(new Vector2d(60, 60))
                 .build();
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-                    .waitSeconds(1.5)
-                    .lineToConstantHeading(new Vector2d(8, -45))
-                    .waitSeconds(1.5)
-                    .lineToConstantHeading(new Vector2d(8, -32))
-                    .waitSeconds(1.5)
-                    .forward(10)
-                    .lineToConstantHeading(new Vector2d(60, -60))
-                    .build();
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(8, 45))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(8, 32))
+                .waitSeconds(1.5)
+                .forward(10)
+                .lineToConstantHeading(new Vector2d(60, 60))
+                .build();
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -45))
+                .lineToConstantHeading(new Vector2d(22.5, 45))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -40))
+                .lineToConstantHeading(new Vector2d(22.5, 40))
                 .waitSeconds(1.5)
                 .forward(20)
-                .lineToConstantHeading(new Vector2d(60, -60))
+                .lineToConstantHeading(new Vector2d(60, 60))
                 .build();
         waitForStart();
 
