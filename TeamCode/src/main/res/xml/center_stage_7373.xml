@@ -10,7 +10,7 @@
             <Servo name="bucketStop" port="0"/>
 
 
-            <LynxEmbeddedIMU name="imu" port="0" bus="0"/>
+
 
         </LynxModule>
         <LynxModule name="Expansion Hub" port="1">
@@ -19,6 +19,7 @@
             <Matrix12vMotor name="rightArm" port="0" />
             <Matrix12vMotor name="rightSpin" port="3" />
             <Servo name="bucket" port="0"/>
+            <LynxEmbeddedIMU name="imu" port="0" bus="0"/>
         </LynxModule>
     </LynxUsbDevice>
 </Robot>

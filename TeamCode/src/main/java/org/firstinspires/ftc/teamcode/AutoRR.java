@@ -31,6 +31,30 @@ public class AutoRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initTfod();
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
+            telemetry.addData(""," ");
+            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+
+            if (x < 300) {
+                LEFT = true;
+                telemetry.addData("Left","");
+            }
+            if (x > 350) {
+                MIDDLE = true;
+                telemetry.addData("Middle","");
+            }
+            else {
+                RIGHT = true;
+                telemetry.addData("Right","");
+            }
+        }
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(270));
@@ -93,34 +117,5 @@ public class AutoRR extends LinearOpMode {
         visionPortal = builder.build();
         tfod.setMinResultConfidence(0.75f);
         visionPortal.setProcessorEnabled(tfod, true);
-        telemetryTfod();
-    }
-    private void telemetryTfod() {
-
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-        telemetry.addData("# Objects Detected", currentRecognitions.size());
-
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-
-            telemetry.addData(""," ");
-            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-
-            if (x < 170) {
-                LEFT = true;
-                telemetry.addData("Left","");
-            }
-            if (x > 180 && x < 450) {
-                MIDDLE = true;
-                telemetry.addData("Middle","");
-            }
-            else {
-                RIGHT = true;
-                telemetry.addData("Right","");
-            }
-        }
     }
 }
