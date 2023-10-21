@@ -27,14 +27,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.templates;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -55,12 +53,11 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="TETST")
+@Autonomous(name="TETST", group="Templates")
 
-public class TESTVISION extends LinearOpMode {
+public class Template_PixelVision extends LinearOpMode {
 
     /* Declare OpMode members. */
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
     private ElapsedTime runtime = new ElapsedTime();
 
     private int zone = 3; // Default if Team Prop not found
@@ -141,8 +138,8 @@ public class TESTVISION extends LinearOpMode {
 
     // CENTERSTAGE Methods for Zone Operations (placing Pixels on Spike Marks or Backdrop)
     public void zoneOne() {
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
-
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
                 .back(20)
@@ -155,7 +152,8 @@ public class TESTVISION extends LinearOpMode {
     }
 
     public void zoneTwo() {
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
@@ -171,7 +169,8 @@ public class TESTVISION extends LinearOpMode {
     }
 
     public void zoneThree() {
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
