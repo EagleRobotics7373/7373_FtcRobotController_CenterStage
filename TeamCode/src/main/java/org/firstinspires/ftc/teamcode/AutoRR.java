@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Scoring Zone Red")
+@Autonomous(name="Auto Scoring Zone Red", preselectTeleOp= "Beta_TeleOp")
 public class AutoRR extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
@@ -31,46 +31,50 @@ public class AutoRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initTfod();
+        getTfodResults();
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
 
-        //Edit the sequences here
-        TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .back(20)
-                .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
-                .waitSeconds(1.5)
-                .forward(4)
-                .lineToConstantHeading(new Vector2d(60, -60))
-                .build();
-        TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
+        waitForStart();
+
+        if (LEFT) {
+            TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
+                    .back(20)
+                    .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
+                    .waitSeconds(1.5)
+                    .strafeLeft(4)
+                    .lineToConstantHeading(new Vector2d(60, -60))
+                    .build();
+            drive.followTrajectorySequence(trajSeqLEFT);
+        }
+        if (MIDDLE) {
+            TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
                     .waitSeconds(1.5)
                     .lineToConstantHeading(new Vector2d(8, -45))
                     .waitSeconds(1.5)
                     .lineToConstantHeading(new Vector2d(8, -32))
                     .waitSeconds(1.5)
-                    .forward(10)
+                    .strafeLeft(10)
                     .lineToConstantHeading(new Vector2d(60, -60))
                     .build();
-        TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -40))
-                .waitSeconds(1.5)
-                .forward(20)
-                .lineToConstantHeading(new Vector2d(60, -60))
-                .build();
-        waitForStart();
-
-        if (!isStopRequested() && LEFT)
-            drive.followTrajectorySequence(trajSeqLEFT);
-        if (!isStopRequested() && MIDDLE)
             drive.followTrajectorySequence(trajSeqMIDDLE);
-        if (!isStopRequested() && RIGHT)
+        }
+        if (RIGHT) {
+            TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
+                    .waitSeconds(1.5)
+                    .lineToConstantHeading(new Vector2d(22.5, -45))
+                    .waitSeconds(1.5)
+                    .lineToConstantHeading(new Vector2d(22.5, -40))
+                    .waitSeconds(1.5)
+                    .strafeLeft(20)
+                    .lineToConstantHeading(new Vector2d(60, -60))
+                    .build();
             drive.followTrajectorySequence(trajSeqRIGHT);
+        }
     }
 
     private void initTfod() {
@@ -93,33 +97,22 @@ public class AutoRR extends LinearOpMode {
         visionPortal = builder.build();
         tfod.setMinResultConfidence(0.75f);
         visionPortal.setProcessorEnabled(tfod, true);
-        telemetryTfod();
     }
-    private void telemetryTfod() {
-
+    private void getTfodResults() {
         List<Recognition> currentRecognitions = tfod.getRecognitions();
-        telemetry.addData("# Objects Detected", currentRecognitions.size());
-
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            telemetry.addData(""," ");
-            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-
-            if (x < 170) {
+            if (x < 300) {
                 LEFT = true;
-                telemetry.addData("Left","");
+                telemetry.addData("Left", "");
             }
-            if (x > 180 && x < 450) {
+            if (x > 350) {
                 MIDDLE = true;
-                telemetry.addData("Middle","");
-            }
-            else {
+                telemetry.addData("Middle", "");
+            } else {
                 RIGHT = true;
-                telemetry.addData("Right","");
+                telemetry.addData("Right", "");
             }
         }
     }

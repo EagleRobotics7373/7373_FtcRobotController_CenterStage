@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Warehouse Zone Red")
+@Autonomous(name="Auto Warehouse Zone Red", preselectTeleOp= "Beta_TeleOp")
 public class AutoLRED extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
