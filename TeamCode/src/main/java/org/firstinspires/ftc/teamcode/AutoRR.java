@@ -35,7 +35,7 @@ public class AutoRR extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
 
@@ -46,7 +46,7 @@ public class AutoRR extends LinearOpMode {
                     .back(20)
                     .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
                     .waitSeconds(1.5)
-                    .forward(4)
+                    .strafeLeft(4)
                     .lineToConstantHeading(new Vector2d(60, -60))
                     .build();
             drive.followTrajectorySequence(trajSeqLEFT);
@@ -58,7 +58,7 @@ public class AutoRR extends LinearOpMode {
                     .waitSeconds(1.5)
                     .lineToConstantHeading(new Vector2d(8, -32))
                     .waitSeconds(1.5)
-                    .forward(10)
+                    .strafeLeft(10)
                     .lineToConstantHeading(new Vector2d(60, -60))
                     .build();
             drive.followTrajectorySequence(trajSeqMIDDLE);
@@ -70,7 +70,7 @@ public class AutoRR extends LinearOpMode {
                     .waitSeconds(1.5)
                     .lineToConstantHeading(new Vector2d(22.5, -40))
                     .waitSeconds(1.5)
-                    .forward(20)
+                    .strafeLeft(20)
                     .lineToConstantHeading(new Vector2d(60, -60))
                     .build();
             drive.followTrajectorySequence(trajSeqRIGHT);
