@@ -36,9 +36,7 @@ public class Beta_TeleOp extends LinearOpMode {
         rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (opModeIsActive()) {
             //Speed Control
-            if (gamepad1.right_bumper) {
-                speed = 1;
-            } else if (gamepad1.left_bumper) {
+            if (gamepad1.left_trigger > .1) {
                 speed = 0.3;
             } else {
                 speed = 0.6;
@@ -59,7 +57,7 @@ public class Beta_TeleOp extends LinearOpMode {
                 armpower = -.05;
             }
             if(leftArm.getCurrentPosition() > 135) {
-                armpower = -.2 - Math.abs(gamepad2.right_stick_y / 2);
+                armpower = -.2 - Math.abs(gamepad2.right_stick_y);
             }
 
                 leftArm.setPower(armpower);

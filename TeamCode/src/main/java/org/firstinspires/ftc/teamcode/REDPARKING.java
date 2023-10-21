@@ -21,19 +21,13 @@ public class REDPARKING extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
         waitForStart();
 
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -40))
-                .waitSeconds(1.5)
-                .strafeLeft(20)
                 .lineToConstantHeading(new Vector2d(60, -60))
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);

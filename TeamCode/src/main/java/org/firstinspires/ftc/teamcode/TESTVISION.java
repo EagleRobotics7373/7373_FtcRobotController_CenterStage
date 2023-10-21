@@ -55,7 +55,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="TETST", group="Training")
+@Autonomous(name="TETST")
 
 public class TESTVISION extends LinearOpMode {
 
@@ -70,7 +70,7 @@ public class TESTVISION extends LinearOpMode {
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    private static final String TFOD_MODEL_ASSET = "CenterStage.tflite";
+    private static final String TFOD_MODEL_ASSET = "vs_crown.tflite";
 
     private static final String[] LABELS = {
             "BlueCrown",
