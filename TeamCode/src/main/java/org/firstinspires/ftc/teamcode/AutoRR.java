@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Scoring Zone Red")
+@Autonomous(name="Auto Scoring Zone Red", preselectTeleOp= "Beta_TeleOp")
 public class AutoRR extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
@@ -31,6 +31,7 @@ public class AutoRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initTfod();
+        getTfodResults();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -96,22 +97,22 @@ public class AutoRR extends LinearOpMode {
         visionPortal = builder.build();
         tfod.setMinResultConfidence(0.75f);
         visionPortal.setProcessorEnabled(tfod, true);
-
+    }
+    private void getTfodResults() {
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
             if (x < 300) {
                 LEFT = true;
-                telemetry.addData("Left","");
+                telemetry.addData("Left", "");
             }
             if (x > 350) {
                 MIDDLE = true;
-                telemetry.addData("Middle","");
-            }
-            else {
+                telemetry.addData("Middle", "");
+            } else {
                 RIGHT = true;
-                telemetry.addData("Right","");
+                telemetry.addData("Right", "");
             }
         }
     }

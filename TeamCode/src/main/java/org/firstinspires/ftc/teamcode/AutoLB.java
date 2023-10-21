@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Scoring Zone Blue")
+@Autonomous(name="Auto Scoring Zone Blue", preselectTeleOp= "Beta_TeleOp")
 public class AutoLB extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
