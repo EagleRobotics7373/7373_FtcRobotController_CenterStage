@@ -27,7 +27,13 @@ public class Beta_TeleOp extends LinearOpMode {
 
         double speed;
         double position = 0;
+        double armpower = 0;
+        leftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bucketStop.setPosition(.1);
         waitForStart();
+        leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (opModeIsActive()) {
             //Speed Control
             if (gamepad1.right_bumper) {
@@ -48,56 +54,59 @@ public class Beta_TeleOp extends LinearOpMode {
             rightRearMotor.setPower(-pivot + vertical - horizontal);
             leftRearMotor.setPower(-pivot - vertical - horizontal);
 
-            double armpower = (gamepad2.right_stick_y / 3) + .1;
-            if (armpower < 0) {
-                armpower = -.1;
+            armpower = (gamepad2.right_stick_y / 3) + .1;
+            if (armpower < 0 && leftArm.getCurrentPosition() < 100) {
+                armpower = -.05;
             }
+            if(leftArm.getCurrentPosition() > 135) {
+                armpower = -.2 - Math.abs(gamepad2.right_stick_y / 2);
+            }
+
                 leftArm.setPower(armpower);
                 rightArm.setPower(armpower);
 
-                if(gamepad2.left_bumper) {
-                    leftSpin.setPower(.5);
-                    rightSpin.setPower(.5);
+                if(gamepad1.left_bumper) {
+                    leftSpin.setPower(.6);
+                    rightSpin.setPower(-.6);
                 }
-                if(gamepad2.right_bumper) {
+                if(gamepad1.right_bumper) {
                     leftSpin.setPower(0);
                     rightSpin.setPower(0);
                 }
 
-                if (leftArm.getCurrentPosition() > 10 && leftArm.getCurrentPosition() < 50) {
-                    bucket.setPosition(0);
-                } else if (leftArm.getCurrentPosition() > 50) {
+                if (leftArm.getCurrentPosition() >= 13 && leftArm.getCurrentPosition() < 60) {
+                    bucket.setPosition(.1);
+                } else if (leftArm.getCurrentPosition() > 60) {
                     bucket.setPosition(.7);
                 } else {
-                    bucket.setPosition(.2);
+                    bucket.setPosition(.3);
                 }
 
                 if (gamepad2.a) {
                     bucketStop.setPosition(.6);
                 }
                 if (gamepad2.x) {
-                    bucketStop.setPosition(0);
+                    bucketStop.setPosition(.1);
                 }
-                if (gamepad2.y) {
-                    launcher.setPosition(position);
-                }
-
-                if (gamepad2.dpad_up) {
-                    position += .1;
-                    sleep(500);
+                if (gamepad2.left_bumper && gamepad2.right_bumper) {
+                    launcher.setPosition(.3);
                 }
 
-                if (gamepad2.dpad_down) {
-                    position -= .1;
-                    sleep(500);
-                }
+//                if (gamepad2.dpad_up) {
+//                    position += .1;
+//                    sleep(500);
+//                }
+//
+//                if (gamepad2.dpad_down) {
+//                    position -= .1;
+//                    sleep(500);
+//                }
                 telemetry.addData("position", leftArm.getCurrentPosition());
-                telemetry.addData("target", leftArm.getTargetPosition());
-                telemetry.addData("position", position);
+//                telemetry.addData("servoposition", position);
                 telemetry.addData("power", leftArm.getPowerFloat());
                 telemetry.update();
             }
-  
+
             rightFrontMotor.setPower(0.0);
             leftFrontMotor.setPower(0.0);
             rightRearMotor.setPower(0.0);

@@ -22,7 +22,7 @@
             <Servo name="launcher" port="1"/>
 
             <LynxEmbeddedIMU name="imu" port="0" bus="0"/>
-            
+
         </LynxModule>
     </LynxUsbDevice>
 </Robot>

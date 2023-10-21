@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.nfc.Tag;
 import android.util.Log;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -18,8 +17,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name="Auto Scoring Zone Red", preselectTeleOp= "Beta_TeleOp")
-public class AutoRR extends LinearOpMode {
+@Autonomous(name="TESTRED", preselectTeleOp= "Beta_TeleOp")
+public class TEST extends LinearOpMode {
     boolean LEFT = false;
     boolean MIDDLE = false;
     boolean RIGHT = false;
