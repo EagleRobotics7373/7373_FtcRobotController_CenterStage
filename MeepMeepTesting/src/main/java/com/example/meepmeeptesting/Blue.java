@@ -18,7 +18,7 @@ public class Blue {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
-                .setDimensions(14.0,15.0)
+                .setDimensions(14.5,17.0)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(16.0, 62.5, Math.toRadians(90)))
                                 .waitSeconds(1.5)
