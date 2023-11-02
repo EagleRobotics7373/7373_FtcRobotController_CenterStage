@@ -20,13 +20,11 @@ public class Blue {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setDimensions(14.5,17.0)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(16.0, 62.5, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(16.0, 62.0, Math.toRadians(180)))
+                                .back(20)
+                                .splineToConstantHeading(new Vector2d(.5, 34), Math.toRadians(180))
                                 .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(22.5, 45))
-                                .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(22.5, 40))
-                                .waitSeconds(1.5)
-                                .forward(20)
+                                .strafeRight(4)
                                 .lineToConstantHeading(new Vector2d(60, 60))
                                 .build()
                 );

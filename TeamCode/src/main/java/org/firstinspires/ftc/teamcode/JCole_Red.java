@@ -53,9 +53,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="RedFINAL", group="Templates")
+@Autonomous(name="J.Cole-RED", group="Templates")
 
-public class FINAL_Red extends LinearOpMode {
+public class JCole_Red extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -142,10 +142,10 @@ public class FINAL_Red extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .back(20)
+                .forward(20)
                 .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
                 .waitSeconds(1.5)
-                .strafeLeft(4)
+                .strafeRight(4)
                 .lineToConstantHeading(new Vector2d(60, -60))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
