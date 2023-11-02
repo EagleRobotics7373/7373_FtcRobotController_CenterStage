@@ -64,6 +64,8 @@ public class JCole_Red extends LinearOpMode {
 
     private int watchTime = 5; // Watch for 5 seconds
 
+    private boolean preinitWatch = false;
+
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -84,10 +86,22 @@ public class JCole_Red extends LinearOpMode {
         initTfod();
 
         // Wait for the DS start button to be touched.
-        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch Play to start OpMode");
-        telemetry.update();
-        waitForStart();
+        while (!isStarted() && opModeIsActive()) {
+            if (gamepad2.a) preinitWatch = true;
+            else if (gamepad2.b) preinitWatch = false;
+
+            if (preinitWatch) {
+                telemetryTfod();
+                telemetry.addLine("Vision preview on. Press gamepad2.b to disable.");
+            } else {
+                telemetry.addLine("Vision preview off. Press gamepad2.a to enable.");
+            }
+
+            telemetry.addLine();
+            telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+            telemetry.addData(">", "Touch Play to start OpMode");
+            telemetry.update();
+        }
 
         if (opModeIsActive()) {
             runtime.reset();
