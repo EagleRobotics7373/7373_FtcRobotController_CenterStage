@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -55,16 +54,12 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="J.Cole-RED", group="Master")
+@Autonomous(name="Pink", group="Templates")
 
-public class JCole_Red extends LinearOpMode {
+public class Pink extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-
-//    DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
-//    DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
-//    Servo bucket = hardwareMap.get(Servo.class, "bucket");
 
     private int zone = 3; // Default if Team Prop not found
 
@@ -144,66 +139,56 @@ public class JCole_Red extends LinearOpMode {
 
     // CENTERSTAGE Methods for Zone Operations (placing Pixels on Spike Marks or Backdrop)
     public void zoneOne() {
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        leftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(0));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(17, -36))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d( 0.2,-36))
-                .strafeRight(4)
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(20, -40))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(20, -60))
+                .strafeLeft(23)
+                .back(13)
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(55, -60))
+                .strafeRight(8)
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
     }
 
     public void zoneTwo() {
+        DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, -45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, -32))
-                .waitSeconds(1.5)
-                .strafeRight(20)
-                .lineToConstantHeading(new Vector2d(55, -60))
+                .waitSeconds(1)
+                .back(4)
+                .strafeLeft(29)
+                .strafeRight(5)
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
     }
 
     public void zoneThree() {
+        DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.0, -45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.0, -39))
-                .waitSeconds(1.5)
-                .strafeRight(20)
-                .lineToConstantHeading(new Vector2d(58, -58))
+                .waitSeconds(1)
+                .strafeLeft(27)
+                .forward(5)
+                .strafeRight(3)
                 .build();
-
         drive.followTrajectorySequence(trajSeqRIGHT);
     }
 
@@ -248,22 +233,19 @@ public class JCole_Red extends LinearOpMode {
 
             if (x < 300) {
                 zone = 1;
-                telemetry.addData("1",zone);
             }
-            else if (x > 350) {
+            else if (x >= 300) {
                 zone = 2;
-                telemetry.addData("2",zone);
             }
             else {
                 zone = 3;
-                telemetry.addData("3",zone);
             }
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        }
+        }   // end for() loop
 
     }   // end method telemetryTfod()
 

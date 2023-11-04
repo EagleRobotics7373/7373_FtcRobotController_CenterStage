@@ -21,11 +21,17 @@ public class Blue {
                 .setDimensions(14.5,17.0)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(16.0, 62.0, Math.toRadians(180)))
-                                .back(20)
-                                .splineToConstantHeading(new Vector2d(.5, 34), Math.toRadians(180))
                                 .waitSeconds(1.5)
+                                .lineToConstantHeading(new Vector2d(17, 36))
+                                .waitSeconds(1.5)
+                                .lineToConstantHeading(new Vector2d( 0.2,36))
                                 .strafeRight(4)
-                                .lineToConstantHeading(new Vector2d(60, 60))
+                                .waitSeconds(1.5)
+                                .lineToConstantHeading(new Vector2d(20, 40))
+                                .waitSeconds(1)
+                                .lineToConstantHeading(new Vector2d(20, 60))
+                                .waitSeconds(1)
+                                .lineToConstantHeading(new Vector2d(55, 60))
                                 .build()
                 );
 

@@ -33,6 +33,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -138,14 +140,23 @@ public class Carti_Blue extends LinearOpMode {
 
     // CENTERSTAGE Methods for Zone Operations (placing Pixels on Spike Marks or Backdrop)
     public void zoneOne() {
+        DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        leftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(180));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setTargetPosition(200))
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setTargetPosition(200))
+                .waitSeconds(4)
+                .lineToConstantHeading(new Vector2d(28.0, 45))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.0, 45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.0, 39))
+                .lineToConstantHeading(new Vector2d(28.0,39))
                 .waitSeconds(1.5)
                 .strafeRight(20)
                 .lineToConstantHeading(new Vector2d(58, 58))
@@ -154,17 +165,23 @@ public class Carti_Blue extends LinearOpMode {
     }
 
     public void zoneTwo() {
+        DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.2))
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.2))
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(16, 45))
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(16, 32))
                 .waitSeconds(1.5)
-                .strafeLeft(10)
+                .strafeRight(10)
                 .waitSeconds(1.5)
                 .strafeRight(20)
                 .lineToConstantHeading(new Vector2d(55, 60))
@@ -173,11 +190,17 @@ public class Carti_Blue extends LinearOpMode {
     }
 
     public void zoneThree() {
+        DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
+//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(17, 36))
                 .waitSeconds(1.5)

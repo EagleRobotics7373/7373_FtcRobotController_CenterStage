@@ -21,17 +21,13 @@ public class Red {
                 .setDimensions(14.5,17.0)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(16.0, 62.5, Math.toRadians(180)))
+                                .waitSeconds(4)
+                                .lineToConstantHeading(new Vector2d(28.0, 45))
                                 .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(17, 36))
+                                .lineToConstantHeading(new Vector2d(28.0, 39))
                                 .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d( 0.2,36))
-                                .strafeRight(4)
-                                .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(20, 40))
-                                .waitSeconds(1)
-                                .lineToConstantHeading(new Vector2d(20, 60))
-                                .waitSeconds(1)
-                                .lineToConstantHeading(new Vector2d(55, 60))
+                                .strafeRight(20)
+                                .lineToConstantHeading(new Vector2d(58, 58))
                                 .build()
                 );
 

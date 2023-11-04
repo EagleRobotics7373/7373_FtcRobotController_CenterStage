@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name="WHOLE LOTTA RED", preselectTeleOp= "Beta_TeleOp")
+@Autonomous(name="JUST PARKING", preselectTeleOp= "Beta_TeleOp")
 public class EMERGENCY extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
