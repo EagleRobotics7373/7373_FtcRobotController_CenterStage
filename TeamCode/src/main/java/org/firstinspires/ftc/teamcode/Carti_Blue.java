@@ -138,49 +138,57 @@ public class Carti_Blue extends LinearOpMode {
 
     // CENTERSTAGE Methods for Zone Operations (placing Pixels on Spike Marks or Backdrop)
     public void zoneOne() {
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(180));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, 45))
+                .lineToConstantHeading(new Vector2d(22.0, 45))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, 40))
+                .lineToConstantHeading(new Vector2d(22.0, 39))
                 .waitSeconds(1.5)
                 .strafeRight(20)
-                .lineToConstantHeading(new Vector2d(60, 60))
+                .lineToConstantHeading(new Vector2d(58, 58))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
     }
 
     public void zoneTwo() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, 45))
+                .lineToConstantHeading(new Vector2d(16, 45))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, 32))
+                .lineToConstantHeading(new Vector2d(16, 32))
                 .waitSeconds(1.5)
-                .strafeRight(10)
-                .lineToConstantHeading(new Vector2d(60, 60))
+                .strafeLeft(10)
+                .waitSeconds(1.5)
+                .strafeRight(20)
+                .lineToConstantHeading(new Vector2d(55, 60))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
     }
 
     public void zoneThree() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(16.0, 62.5, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .back(20)
-                .splineToConstantHeading(new Vector2d(.5, 34), Math.toRadians(180))
                 .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(17, 36))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d( 0.2,36))
                 .strafeRight(4)
-                .lineToConstantHeading(new Vector2d(60, 60))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(20, 40))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(20, 60))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(55, 60))
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
     }
