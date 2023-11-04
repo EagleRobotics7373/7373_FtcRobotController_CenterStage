@@ -70,16 +70,16 @@ public class Beta_TeleOp extends LinearOpMode {
                 if(leftArm.getCurrentPosition() < 25) {
                     bucket.setPosition(.1);
                 } else {
-                    bucket.setPosition(.5);
+                    bucket.setPosition(.8);
                 }
             }
             armpower = (gamepad2.right_stick_y / 3) + .1;
             if (armpower < 0 && leftArm.getCurrentPosition() < 100) {
                 armpower = -.05;
             }
-            if(leftArm.getCurrentPosition() > 135) {
+            if(leftArm.getCurrentPosition() > 130) {
                 armpower = -.2 - Math.abs(gamepad2.right_stick_y);
-            } else if(leftArm.getCurrentPosition() < 135 && leftArm.getCurrentPosition() > 100) {
+            } else if(leftArm.getCurrentPosition() < 130 && leftArm.getCurrentPosition() > 100) {
                 armpower = gamepad2.right_stick_y / 2;
             }
 

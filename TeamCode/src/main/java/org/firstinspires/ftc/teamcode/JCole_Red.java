@@ -33,6 +33,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -59,6 +61,9 @@ public class JCole_Red extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+    Servo bucket = hardwareMap.get(Servo.class, "bucket");
+    DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
+    DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
 
     private int zone = 3; // Default if Team Prop not found
 
@@ -156,6 +161,9 @@ public class JCole_Red extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
+                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
                 .forward(20)
                 .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
                 .waitSeconds(1.5)
