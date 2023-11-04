@@ -234,21 +234,20 @@ public class JCole_Red extends LinearOpMode {
 
             if (x < 300) {
                 zone = 1;
-                telemetry.addData("1",zone);
+                telemetry.addData("ZONE",zone);
             }
-            else if (x > 350) {
+            else if (x >= 300) {
                 zone = 2;
-                telemetry.addData("2",zone);
+                telemetry.addData("ZONE",zone);
             }
             else {
                 zone = 3;
-                telemetry.addData("3",zone);
+                telemetry.addData("ZONE",zone);
             }
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }
 
     }   // end method telemetryTfod()
