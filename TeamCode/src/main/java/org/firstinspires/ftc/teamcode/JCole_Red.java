@@ -53,7 +53,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="J.Cole-RED", group="Templates")
+@Autonomous(name="J.Cole-RED", group="Master")
 
 public class JCole_Red extends LinearOpMode {
 
@@ -63,8 +63,6 @@ public class JCole_Red extends LinearOpMode {
     private int zone = 3; // Default if Team Prop not found
 
     private int watchTime = 5; // Watch for 5 seconds
-
-    private boolean preinitWatch = false;
 
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -86,22 +84,10 @@ public class JCole_Red extends LinearOpMode {
         initTfod();
 
         // Wait for the DS start button to be touched.
-        while (!isStarted() && opModeIsActive()) {
-            if (gamepad2.a) preinitWatch = true;
-            else if (gamepad2.b) preinitWatch = false;
-
-            if (preinitWatch) {
-                telemetryTfod();
-                telemetry.addLine("Vision preview on. Press gamepad2.b to disable.");
-            } else {
-                telemetry.addLine("Vision preview off. Press gamepad2.a to enable.");
-            }
-
-            telemetry.addLine();
-            telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-            telemetry.addData(">", "Touch Play to start OpMode");
-            telemetry.update();
-        }
+        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+        telemetry.addData(">", "Touch Play to start OpMode");
+        telemetry.update();
+        waitForStart();
 
         if (opModeIsActive()) {
             runtime.reset();
@@ -156,11 +142,17 @@ public class JCole_Red extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .forward(20)
-                .splineToConstantHeading(new Vector2d(.5, -34), Math.toRadians(180))
                 .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(17, -36))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d( 0.2,-36))
                 .strafeRight(4)
-                .lineToConstantHeading(new Vector2d(60, -60))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(20, -40))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(20, -60))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(55, -60))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
     }
@@ -177,7 +169,9 @@ public class JCole_Red extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(8, -32))
                 .waitSeconds(1.5)
                 .strafeLeft(10)
-                .lineToConstantHeading(new Vector2d(60, -60))
+                .waitSeconds(1.5)
+                .strafeRight(20)
+                .lineToConstantHeading(new Vector2d(55, -60))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
     }
@@ -240,19 +234,22 @@ public class JCole_Red extends LinearOpMode {
 
             if (x < 300) {
                 zone = 1;
+                telemetry.addData("1",zone);
             }
             else if (x > 350) {
                 zone = 2;
+                telemetry.addData("2",zone);
             }
             else {
                 zone = 3;
+                telemetry.addData("3",zone);
             }
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        }   // end for() loop
+        }
 
     }   // end method telemetryTfod()
 

@@ -235,7 +235,7 @@ public class Carti_Blue extends LinearOpMode {
             if (x < 300) {
                 zone = 1;
             }
-            else if (x > 350) {
+            else if (x >= 300) {
                 zone = 2;
             }
             else {
