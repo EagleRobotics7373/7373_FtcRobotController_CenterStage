@@ -150,10 +150,12 @@ public class Pink extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1)
-                .strafeLeft(23)
-                .back(13)
+                .back(4)
+                .strafeLeft(27)
                 .waitSeconds(1)
-                .strafeRight(8)
+                .back(17)
+                .waitSeconds(1)
+                .strafeRight(6)
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
     }
@@ -185,8 +187,9 @@ public class Pink extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1)
+                .back(8)
                 .strafeLeft(27)
-                .forward(5)
+                .forward(12.5)
                 .strafeRight(3)
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);

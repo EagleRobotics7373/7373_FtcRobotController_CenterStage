@@ -153,7 +153,8 @@ public class Green extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeLeft(23)
                 .back(25)
-                .strafeRight(4)
+                .strafeRight(30)
+                .back(50)
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
     }
@@ -170,7 +171,8 @@ public class Green extends LinearOpMode {
                 .waitSeconds(1)
                 .back(3)
                 .strafeLeft(31)
-                .strafeRight(5)
+                .strafeRight(30)
+                .back(50)
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
     }
@@ -188,6 +190,9 @@ public class Green extends LinearOpMode {
                 .strafeLeft(27)
                 .forward(5)
                 .strafeRight(3)
+                .back(10)
+                .strafeRight(10)
+                .back(50)
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
     }
