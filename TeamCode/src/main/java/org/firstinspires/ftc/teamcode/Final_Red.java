@@ -288,6 +288,7 @@ public class Final_Red extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(40, -45))
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
+        initAprilTag();
         targetFound = false;
         desiredTag  = null;
 

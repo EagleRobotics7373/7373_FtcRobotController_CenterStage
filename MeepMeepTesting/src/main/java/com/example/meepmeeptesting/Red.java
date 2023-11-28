@@ -20,11 +20,10 @@ public class Red {
                 .setColorScheme(new ColorSchemeRedDark())
                 .setDimensions(17,17.0)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(16.0, -62, Math.toRadians(180)))
-                                .waitSeconds(2)
+                        drive.trajectorySequenceBuilder(new Pose2d(16.0, -62, Math.toRadians(0)))
                                 .lineToConstantHeading(new Vector2d(17, -40))
                                 .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(22.5, -40))
+                                .lineToConstantHeading(new Vector2d(22.5, -38))
                                 .waitSeconds(1.5)
                                 .lineToConstantHeading(new Vector2d(22.5, -45))
                                 .lineToConstantHeading(new Vector2d(40, -45))
