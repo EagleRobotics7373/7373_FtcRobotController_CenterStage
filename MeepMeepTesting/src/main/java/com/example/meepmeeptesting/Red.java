@@ -18,15 +18,14 @@ public class Red {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 // Option: Set theme. Default = ColorSchemeRedDark()
                 .setColorScheme(new ColorSchemeRedDark())
-                .setDimensions(17,17.0)
+                .setDimensions(18,17.0)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(16.0, -62, Math.toRadians(0)))
-                                .lineToConstantHeading(new Vector2d(17, -40))
+                        drive.trajectorySequenceBuilder(new Pose2d(-35.0, -61, Math.toRadians(0)))
+                                .lineToConstantHeading(new Vector2d(-35, -36))
                                 .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(22.5, -38))
+                                .lineToConstantHeading(new Vector2d(-46, -36))
                                 .waitSeconds(1.5)
-                                .lineToConstantHeading(new Vector2d(22.5, -45))
-                                .lineToConstantHeading(new Vector2d(40, -45))
+                                .lineToConstantHeading(new Vector2d(-46, -40))
                                 .build()
                 );
 

@@ -34,8 +34,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -43,6 +43,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
@@ -55,16 +57,12 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="J.Cole-RED", group="Master")
+@Autonomous(name="RED-Right", group="Alpha")
 
-public class JCole_Red extends LinearOpMode {
+public class RED_Right extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-
-//    DcMotor leftArm = hardwareMap.get(DcMotor.class, "leftArm");
-//    DcMotor rightArm = hardwareMap.get(DcMotor.class, "rightArm");
-//    Servo bucket = hardwareMap.get(Servo.class, "bucket");
 
     private int zone = 3; // Default if Team Prop not found
 
@@ -89,7 +87,6 @@ public class JCole_Red extends LinearOpMode {
 
         initTfod();
 
-        // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
@@ -100,30 +97,24 @@ public class JCole_Red extends LinearOpMode {
             while (opModeIsActive() && (runtime.seconds() < watchTime)) {
 
                 telemetryTfod();
-
-                // Push telemetry to the Driver Station.
                 telemetry.update();
 
-                // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
                     visionPortal.stopStreaming();
                 } else if (gamepad1.dpad_up) {
                     visionPortal.resumeStreaming();
                 }
-
-                // Share the CPU.
                 sleep(20);
             }
         }
 
-        // Save more CPU resources when camera is no longer needed.
-        visionPortal.close();
 
         telemetry.addData("Zone", zone);
         telemetry.update();
 
         // Run Autonomous Based on Team Prop Position
         if (zone == 1) {
+            //With RED
             zoneOne();
         }
         else if (zone == 2) {
@@ -133,78 +124,67 @@ public class JCole_Red extends LinearOpMode {
             zoneThree();
         }
 
-
-        // Autonomous Finished
-        telemetry.addData("Path", "Complete");
+        telemetry.addData("Road Runner Path", "Complete");
         telemetry.update();
 
-
-    }   // end runOpMode()
+        visionPortal.close();
+    }
 
 
     // CENTERSTAGE Methods for Zone Operations (placing Pixels on Spike Marks or Backdrop)
     public void zoneOne() {
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
+                .lineToConstantHeading(new Vector2d(17, -40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(17, -36))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d( 0.2,-36))
-                .strafeRight(4)
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(20, -40))
+                .lineToConstantHeading(new Vector2d(1, -34))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(20, -60))
-                .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(55, -60))
+                .lineToConstantHeading(new Vector2d(1, -37))
+                .lineToConstantHeading(new Vector2d(40, -37))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
+
+
+        //move motor
     }
 
     public void zoneTwo() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
+                .lineToConstantHeading(new Vector2d(17, -40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, -45))
+                .lineToConstantHeading(new Vector2d(14, -32))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(8, -32))
-                .waitSeconds(1.5)
-                .strafeRight(20)
-                .lineToConstantHeading(new Vector2d(55, -60))
+                .lineToConstantHeading(new Vector2d(14, -37))
+                .lineToConstantHeading(new Vector2d(40, -37))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
+
+
+        //move motor
     }
 
     public void zoneThree() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> bucket.setPosition(.3))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> leftArm.setPower(.1))
-//                .UNSTABLE_addTemporalMarkerOffset(2, () -> rightArm.setPower(.1))
+                .lineToConstantHeading(new Vector2d(17, -40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.0, -45))
+                .lineToConstantHeading(new Vector2d(22.5, -38))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.0, -39))
-                .waitSeconds(1.5)
-                .strafeRight(20)
-                .lineToConstantHeading(new Vector2d(58, -58))
+                .lineToConstantHeading(new Vector2d(22.5, -45))
+                .lineToConstantHeading(new Vector2d(40, -45))
                 .build();
-
         drive.followTrajectorySequence(trajSeqRIGHT);
+
+        //move motor
     }
 
 
@@ -248,23 +228,19 @@ public class JCole_Red extends LinearOpMode {
 
             if (x < 300) {
                 zone = 1;
-                telemetry.addData("1",zone);
             }
             else if (x > 350) {
                 zone = 2;
-                telemetry.addData("2",zone);
             }
             else {
                 zone = 3;
-                telemetry.addData("3",zone);
             }
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        }
+        }   // end for() loop
 
     }   // end method telemetryTfod()
-
 }   // end class
