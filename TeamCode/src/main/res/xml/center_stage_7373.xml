@@ -6,10 +6,12 @@
             <Matrix12vMotor name="leftRear" port="2" />
             <Matrix12vMotor name="leftFront" port="1" />
             <Matrix12vMotor name="intake" port="0" />
+            <Matrix12vMotor name="bucket" port="3" />
         </LynxModule>
         <LynxModule name="Expansion Hub" port="1">
             <Matrix12vMotor name="rightFront" port="3" />
             <Matrix12vMotor name="rightRear" port="2" />
+            <Matrix12vMotor name="arm" port="1" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0"/>
 
         </LynxModule>
