@@ -118,7 +118,7 @@ public class RED_Right extends LinearOpMode {
             zoneOne();
         }
         else if (zone == 2) {
-            zoneTwo();
+            zoneThree();
         }
         else {
             zoneThree();
@@ -142,7 +142,7 @@ public class RED_Right extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(1, -34))
                 .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(1, -37))
-                .lineToConstantHeading(new Vector2d(40, -37))
+                .lineToConstantHeading(new Vector2d(45, -37))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
 
@@ -161,7 +161,7 @@ public class RED_Right extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(14, -32))
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(14, -37))
-                .lineToConstantHeading(new Vector2d(40, -37))
+                .lineToConstantHeading(new Vector2d(45 -37))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
 
@@ -180,7 +180,7 @@ public class RED_Right extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(22.5, -38))
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(22.5, -45))
-                .lineToConstantHeading(new Vector2d(40, -45))
+                .lineToConstantHeading(new Vector2d(45, -37))
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
 
