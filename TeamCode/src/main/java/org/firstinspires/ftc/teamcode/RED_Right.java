@@ -34,6 +34,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -84,6 +85,9 @@ public class RED_Right extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo stopper = hardwareMap.get(Servo.class, "stopper");
 
         initTfod();
 
@@ -118,7 +122,7 @@ public class RED_Right extends LinearOpMode {
             zoneOne();
         }
         else if (zone == 2) {
-            zoneThree();
+            zoneTwo();
         }
         else {
             zoneThree();
@@ -133,16 +137,38 @@ public class RED_Right extends LinearOpMode {
 
     // CENTERSTAGE Methods for Zone Operations (placing Pixels on Spike Marks or Backdrop)
     public void zoneOne() {
+        DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo stopper = hardwareMap.get(Servo.class, "stopper");
         Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, -40))
+                .addDisplacementMarker( ()-> {
+                    bucket.setPosition(.3);
+                    stopper.setPosition(0);
+                    belt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                })
+                .lineToConstantHeading(new Vector2d(17, -35))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(1, -34))
+                .lineToConstantHeading(new Vector2d(3, -35))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(1, -37))
-                .lineToConstantHeading(new Vector2d(45, -37))
+                .lineToConstantHeading(new Vector2d(3, -38.5))
+                .lineToConstantHeading(new Vector2d(45, -38.5))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(45, -28))
+                .waitSeconds(1)
+                .addDisplacementMarker( ()-> {
+                    bucket.setPosition(.6);
+                    belt.setPower(.6);
+                    belt.setTargetPosition(1500);
+                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .waitSeconds(1)
+                .addDisplacementMarker(()-> {
+                    stopper.setPosition(.2);
+                })
+                .waitSeconds(5)
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
 
@@ -161,7 +187,9 @@ public class RED_Right extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(14, -32))
                 .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(14, -37))
-                .lineToConstantHeading(new Vector2d(45 -37))
+                .lineToConstantHeading(new Vector2d(45, -37))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(45, -36))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
 
@@ -177,10 +205,12 @@ public class RED_Right extends LinearOpMode {
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(17, -40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -38))
+                .lineToConstantHeading(new Vector2d(25, -40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(22.5, -45))
-                .lineToConstantHeading(new Vector2d(45, -37))
+                .lineToConstantHeading(new Vector2d(25, -45))
+                .lineToConstantHeading(new Vector2d(45, -45))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(45, -43))
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
 
