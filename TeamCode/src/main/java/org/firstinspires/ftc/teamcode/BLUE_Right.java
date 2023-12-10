@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -44,8 +43,6 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
@@ -60,7 +57,7 @@ import java.util.List;
 
 @Autonomous(name="RED-Right", group="Alpha")
 
-public class RED_Right extends LinearOpMode {
+public class BLUE_Right extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -137,35 +134,18 @@ public class RED_Right extends LinearOpMode {
         DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
         Servo bucket = hardwareMap.get(Servo.class, "bucket");
         Servo stopper = hardwareMap.get(Servo.class, "stopper");
-        Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(0));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .addDisplacementMarker( ()-> {
-                    bucket.setPosition(.3);
-                    stopper.setPosition(0);
-                    belt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                })
-                .lineToConstantHeading(new Vector2d(16, -35))
+                .lineToConstantHeading(new Vector2d(16, 35))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(3, -35))
+                .lineToConstantHeading(new Vector2d(3, 35))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(3, -38.5))
-                .lineToConstantHeading(new Vector2d(45, -38.5))
+                .lineToConstantHeading(new Vector2d(3, 38.5))
+                .lineToConstantHeading(new Vector2d(45, 38.5))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(45, -28))
-                .waitSeconds(1)
-                .addDisplacementMarker( ()-> {
-                    bucket.setPosition(.6);
-                    belt.setPower(.6);
-                    belt.setTargetPosition(1500);
-                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                })
-                .waitSeconds(1)
-                .addDisplacementMarker(()-> {
-                    stopper.setPosition(.2);
-                })
-                .waitSeconds(5)
+                .lineToConstantHeading(new Vector2d(45, 28))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
 
@@ -175,18 +155,18 @@ public class RED_Right extends LinearOpMode {
 
     public void zoneTwo() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, -40))
+                .lineToConstantHeading(new Vector2d(17, 40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(14, -32))
+                .lineToConstantHeading(new Vector2d(14, 32))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(14, -37))
-                .lineToConstantHeading(new Vector2d(45, -37))
+                .lineToConstantHeading(new Vector2d(14, 37))
+                .lineToConstantHeading(new Vector2d(45, 37))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(45, -36))
+                .lineToConstantHeading(new Vector2d(45, 36))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
 
@@ -196,18 +176,18 @@ public class RED_Right extends LinearOpMode {
 
     public void zoneThree() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, -40))
+                .lineToConstantHeading(new Vector2d(17, 40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(25, -40))
+                .lineToConstantHeading(new Vector2d(25, 40))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(25, -45))
-                .lineToConstantHeading(new Vector2d(45, -45))
+                .lineToConstantHeading(new Vector2d(25, 45))
+                .lineToConstantHeading(new Vector2d(45, 45))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(45, -43))
+                .lineToConstantHeading(new Vector2d(45, 43))
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
 
