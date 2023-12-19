@@ -144,28 +144,27 @@ public class RED_Right extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .addDisplacementMarker( ()-> {
-                    bucket.setPosition(.3);
-                    stopper.setPosition(0);
-                    belt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                })
                 .lineToConstantHeading(new Vector2d(17, -35))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(3, -35))
-                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(3, -38.5))
                 .lineToConstantHeading(new Vector2d(45, -38.5))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(45, -28))
-                .waitSeconds(1)
-                .addDisplacementMarker( ()-> {
+                .lineToConstantHeading(new Vector2d(52.5, -28))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(52.5, -52))
+                .addTemporalMarker(6, ()-> {
                     bucket.setPosition(.6);
+                })
+                .addTemporalMarker(6, ()-> {
                     belt.setPower(.6);
-                    belt.setTargetPosition(1500);
+                })
+                .addTemporalMarker(6, ()-> {
+                    belt.setTargetPosition(750);
+                })
+                .addTemporalMarker(6, ()-> {
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 })
-                .waitSeconds(1)
-                .addDisplacementMarker(()-> {
+                .addTemporalMarker(9, ()-> {
                     stopper.setPosition(.2);
                 })
                 .waitSeconds(5)
@@ -177,19 +176,38 @@ public class RED_Right extends LinearOpMode {
     }
 
     public void zoneTwo() {
+        DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo stopper = hardwareMap.get(Servo.class, "stopper");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(17, -40))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(14, -32))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(14, -37))
                 .lineToConstantHeading(new Vector2d(45, -37))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(45, -36))
+                .lineToConstantHeading(new Vector2d(52.5, -37))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(52.5, -60))
+                .addTemporalMarker(5, ()-> {
+                    bucket.setPosition(.6);
+                })
+                .addTemporalMarker(5, ()-> {
+                    belt.setPower(.6);
+                })
+                .addTemporalMarker(5, ()-> {
+                    belt.setTargetPosition(750);
+                })
+                .addTemporalMarker(5, ()-> {
+                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .addTemporalMarker(7.5, ()-> {
+                    stopper.setPosition(.2);
+                })
+                .waitSeconds(5)
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
 
@@ -198,19 +216,38 @@ public class RED_Right extends LinearOpMode {
     }
 
     public void zoneThree() {
+        DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo stopper = hardwareMap.get(Servo.class, "stopper");
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(16.0, -62.0, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(17, -40))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(25, -40))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(25, -45))
                 .lineToConstantHeading(new Vector2d(45, -45))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(45, -43))
+                .lineToConstantHeading(new Vector2d(52.5, -43))
+                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(52.5, -60))
+                .addTemporalMarker(4.5, ()-> {
+                    bucket.setPosition(.6);
+                })
+                .addTemporalMarker(4.5, ()-> {
+                    belt.setPower(.6);
+                })
+                .addTemporalMarker(4.5, ()-> {
+                    belt.setTargetPosition(750);
+                })
+                .addTemporalMarker(4.5, ()-> {
+                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .addTemporalMarker(7, ()-> {
+                    stopper.setPosition(.2);
+                })
+                .waitSeconds(5)
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
 

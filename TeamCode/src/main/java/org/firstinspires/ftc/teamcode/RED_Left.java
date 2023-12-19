@@ -147,9 +147,7 @@ public class RED_Left extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(-35, -36))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(-46, -36))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(-46, -40))
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
@@ -162,7 +160,6 @@ public class RED_Left extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(-35, -33))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(-35, -36))
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
@@ -175,9 +172,7 @@ public class RED_Left extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
                 .lineToConstantHeading(new Vector2d(-35, -36))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(-24, -36))
-                .waitSeconds(1.5)
                 .lineToConstantHeading(new Vector2d(-24, -34))
                 .lineToConstantHeading(new Vector2d(-24, -37))
                 .build();
