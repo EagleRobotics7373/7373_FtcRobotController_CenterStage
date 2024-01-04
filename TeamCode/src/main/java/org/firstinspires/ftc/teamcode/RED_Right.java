@@ -67,7 +67,7 @@ public class RED_Right extends LinearOpMode {
 
     private int zone = 3; // Default if Team Prop not found
 
-    private int watchTime = 5; // Watch for 5 seconds
+    private int watchTime = 3; // Watch for 5 seconds
 
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -144,30 +144,27 @@ public class RED_Right extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, -35))
+                .addTemporalMarker(0, ()-> {
+                    stopper.setPosition(0);
+                })
+                .lineToConstantHeading(new Vector2d(16, -35))
                 .lineToConstantHeading(new Vector2d(3, -35))
                 .lineToConstantHeading(new Vector2d(3, -38.5))
                 .lineToConstantHeading(new Vector2d(45, -38.5))
                 .lineToConstantHeading(new Vector2d(45, -28))
-                .lineToConstantHeading(new Vector2d(52.5, -28))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(52.5, -52))
-                .addTemporalMarker(6, ()-> {
+                .lineToConstantHeading(new Vector2d(53.5, -28))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(50, -28))
+                .lineToConstantHeading(new Vector2d(53.5, -60))
+                .addTemporalMarker(8, ()-> {
                     bucket.setPosition(.6);
-                })
-                .addTemporalMarker(6, ()-> {
                     belt.setPower(.6);
-                })
-                .addTemporalMarker(6, ()-> {
                     belt.setTargetPosition(750);
-                })
-                .addTemporalMarker(6, ()-> {
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 })
                 .addTemporalMarker(9, ()-> {
                     stopper.setPosition(.2);
                 })
-                .waitSeconds(5)
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
 
@@ -184,30 +181,27 @@ public class RED_Right extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, -40))
+                .addTemporalMarker(0, ()-> {
+                    stopper.setPosition(0);
+                })
+                .lineToConstantHeading(new Vector2d(16, -40))
                 .lineToConstantHeading(new Vector2d(14, -32))
                 .lineToConstantHeading(new Vector2d(14, -37))
                 .lineToConstantHeading(new Vector2d(45, -37))
                 .lineToConstantHeading(new Vector2d(45, -36))
-                .lineToConstantHeading(new Vector2d(52.5, -37))
+                .lineToConstantHeading(new Vector2d(53.5, -37))
                 .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(52.5, -60))
-                .addTemporalMarker(5, ()-> {
+                .lineToConstantHeading(new Vector2d(50, -37))
+                .lineToConstantHeading(new Vector2d(53.5, -60))
+                .addTemporalMarker(7, ()-> {
                     bucket.setPosition(.6);
-                })
-                .addTemporalMarker(5, ()-> {
                     belt.setPower(.6);
-                })
-                .addTemporalMarker(5, ()-> {
                     belt.setTargetPosition(750);
-                })
-                .addTemporalMarker(5, ()-> {
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 })
-                .addTemporalMarker(7.5, ()-> {
+                .addTemporalMarker(8, ()-> {
                     stopper.setPosition(.2);
                 })
-                .waitSeconds(5)
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
 
@@ -224,30 +218,27 @@ public class RED_Right extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, -40))
+                .addTemporalMarker(0, ()-> {
+                    stopper.setPosition(0);
+                })
+                .lineToConstantHeading(new Vector2d(16, -40))
                 .lineToConstantHeading(new Vector2d(25, -40))
                 .lineToConstantHeading(new Vector2d(25, -45))
                 .lineToConstantHeading(new Vector2d(45, -45))
                 .lineToConstantHeading(new Vector2d(45, -43))
-                .lineToConstantHeading(new Vector2d(52.5, -43))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(52.5, -60))
-                .addTemporalMarker(4.5, ()-> {
+                .lineToConstantHeading(new Vector2d(53.5, -43))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(50, -43))
+                .lineToConstantHeading(new Vector2d(53.5, -60))
+                .addTemporalMarker(6, ()-> {
                     bucket.setPosition(.6);
-                })
-                .addTemporalMarker(4.5, ()-> {
                     belt.setPower(.6);
-                })
-                .addTemporalMarker(4.5, ()-> {
                     belt.setTargetPosition(750);
-                })
-                .addTemporalMarker(4.5, ()-> {
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 })
                 .addTemporalMarker(7, ()-> {
                     stopper.setPosition(.2);
                 })
-                .waitSeconds(5)
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
 
@@ -296,7 +287,7 @@ public class RED_Right extends LinearOpMode {
             if (x < 300) {
                 zone = 1;
             }
-            else if (x > 350) {
+            else if (x > 300) {
                 zone = 2;
             }
             else {

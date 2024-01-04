@@ -55,7 +55,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="RED-Right", group="Alpha")
+@Autonomous(name="BLUE-Right", group="Alpha")
 
 public class BLUE_Right extends LinearOpMode {
 
@@ -64,7 +64,7 @@ public class BLUE_Right extends LinearOpMode {
 
     private int zone = 3; // Default if Team Prop not found
 
-    private int watchTime = 5; // Watch for 5 seconds
+    private int watchTime = 3; // Watch for 5 seconds
 
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -134,18 +134,32 @@ public class BLUE_Right extends LinearOpMode {
         DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
         Servo bucket = hardwareMap.get(Servo.class, "bucket");
         Servo stopper = hardwareMap.get(Servo.class, "stopper");
-        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(180));
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqLEFT = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(16, 35))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(3, 35))
+                .addTemporalMarker(0, ()-> {
+                    stopper.setPosition(0);
+                })
+                .lineToConstantHeading(new Vector2d(16, 40))
+                .lineToConstantHeading(new Vector2d(25, 40))
+                .lineToConstantHeading(new Vector2d(25, 45))
+                .lineToConstantHeading(new Vector2d(45, 45))
+                .lineToConstantHeading(new Vector2d(45, 43))
+                .turn(Math.toRadians(180))
+                .lineToConstantHeading(new Vector2d(52.5, 43))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(3, 38.5))
-                .lineToConstantHeading(new Vector2d(45, 38.5))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(45, 28))
+                .lineToConstantHeading(new Vector2d(48, 43))
+                .lineToConstantHeading(new Vector2d(50, 60))
+                .addTemporalMarker(8, ()-> {
+                    bucket.setPosition(.6);
+                    belt.setPower(.6);
+                    belt.setTargetPosition(750);
+                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .addTemporalMarker(9, ()-> {
+                    stopper.setPosition(.2);
+                })
                 .build();
         drive.followTrajectorySequence(trajSeqLEFT);
 
@@ -155,18 +169,33 @@ public class BLUE_Right extends LinearOpMode {
 
     public void zoneTwo() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(0));
-
+        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(180));
+        DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo stopper = hardwareMap.get(Servo.class, "stopper");
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqMIDDLE = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, 40))
-                .waitSeconds(1.5)
+                .addTemporalMarker(0, ()-> {
+                    stopper.setPosition(0);
+                })
+                .lineToConstantHeading(new Vector2d(16, 40))
                 .lineToConstantHeading(new Vector2d(14, 32))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(14, 37))
-                .lineToConstantHeading(new Vector2d(45, 37))
-                .waitSeconds(1.5)
+                .lineToConstantHeading(new Vector2d(14, 36))
                 .lineToConstantHeading(new Vector2d(45, 36))
+                .turn(Math.toRadians(180))
+                .lineToConstantHeading(new Vector2d(52.5, 36))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(48, 36))
+                .lineToConstantHeading(new Vector2d(50, 60))
+                .addTemporalMarker(8, ()-> {
+                    bucket.setPosition(.6);
+                    belt.setPower(.6);
+                    belt.setTargetPosition(750);
+                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .addTemporalMarker(9, ()-> {
+                    stopper.setPosition(.2);
+                })
                 .build();
         drive.followTrajectorySequence(trajSeqMIDDLE);
 
@@ -176,18 +205,34 @@ public class BLUE_Right extends LinearOpMode {
 
     public void zoneThree() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(0));
-
+        Pose2d startPose = new Pose2d(16.0, 62.0, Math.toRadians(180));
+        DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
+        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo stopper = hardwareMap.get(Servo.class, "stopper");
         drive.setPoseEstimate(startPose);
         TrajectorySequence trajSeqRIGHT = drive.trajectorySequenceBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(17, 40))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(25, 40))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(25, 45))
-                .lineToConstantHeading(new Vector2d(45, 45))
-                .waitSeconds(1.5)
-                .lineToConstantHeading(new Vector2d(45, 43))
+                .addTemporalMarker(0, ()-> {
+                    stopper.setPosition(0);
+                })
+                .lineToConstantHeading(new Vector2d(16, 36))
+                .lineToConstantHeading(new Vector2d(3, 36))
+                .lineToConstantHeading(new Vector2d(3, 38.5))
+                .lineToConstantHeading(new Vector2d(45, 38.5))
+                .lineToConstantHeading(new Vector2d(45, 28))
+                .turn(Math.toRadians(180))
+                .lineToConstantHeading(new Vector2d(52.5, 28))
+                .waitSeconds(1)
+                .lineToConstantHeading(new Vector2d(48, 28))
+                .lineToConstantHeading(new Vector2d(50, 60))
+                .addTemporalMarker(9, ()-> {
+                    bucket.setPosition(.6);
+                    belt.setPower(.6);
+                    belt.setTargetPosition(750);
+                    belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .addTemporalMarker(10, ()-> {
+                    stopper.setPosition(.2);
+                })
                 .build();
         drive.followTrajectorySequence(trajSeqRIGHT);
 
