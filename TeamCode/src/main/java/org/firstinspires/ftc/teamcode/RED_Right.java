@@ -72,11 +72,11 @@ public class RED_Right extends LinearOpMode {
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    private static final String TFOD_MODEL_ASSET = "vs_crown.tflite";
+    private static final String TFOD_MODEL_ASSET = "vs_beacon.tflite";
 
     private static final String[] LABELS = {
-            "BlueCrown",
-            "RedCrown"
+            "BlueBeacon",
+            "RedBeacon"
     };
 
     private TfodProcessor tfod;
