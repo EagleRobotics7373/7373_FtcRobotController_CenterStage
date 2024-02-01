@@ -149,10 +149,10 @@ public class BLUE_Right extends LinearOpMode {
                 .turn(Math.toRadians(180))
                 .lineToConstantHeading(new Vector2d(52.5, 43))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(48, 43))
+                .lineToConstantHeading(new Vector2d(42, 43))
                 .lineToConstantHeading(new Vector2d(50, 60))
-                .addTemporalMarker(8, ()-> {
-                    bucket.setPosition(.6);
+                .addTemporalMarker(6, ()-> {
+                    bucket.setPosition(.1);
                     belt.setPower(.6);
                     belt.setTargetPosition(750);
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -185,10 +185,10 @@ public class BLUE_Right extends LinearOpMode {
                 .turn(Math.toRadians(180))
                 .lineToConstantHeading(new Vector2d(52.5, 36))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(48, 36))
-                .lineToConstantHeading(new Vector2d(50, 60))
-                .addTemporalMarker(8, ()-> {
-                    bucket.setPosition(.6);
+                .lineToConstantHeading(new Vector2d(42, 36))
+                .lineToConstantHeading(new Vector2d(50, 10))
+                .addTemporalMarker(6, ()-> {
+                    bucket.setPosition(.1);
                     belt.setPower(.6);
                     belt.setTargetPosition(750);
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -222,10 +222,10 @@ public class BLUE_Right extends LinearOpMode {
                 .turn(Math.toRadians(180))
                 .lineToConstantHeading(new Vector2d(52.5, 28))
                 .waitSeconds(1)
-                .lineToConstantHeading(new Vector2d(48, 28))
-                .lineToConstantHeading(new Vector2d(50, 60))
-                .addTemporalMarker(9, ()-> {
-                    bucket.setPosition(.6);
+                .lineToConstantHeading(new Vector2d(42, 28))
+                .lineToConstantHeading(new Vector2d(50, 10))
+                .addTemporalMarker(7, ()-> {
+                    bucket.setPosition(.1);
                     belt.setPower(.6);
                     belt.setTargetPosition(750);
                     belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);

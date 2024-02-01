@@ -23,7 +23,7 @@ public class Beta_TeleOp extends LinearOpMode {
         DcMotor leftRearMotor = hardwareMap.get(DcMotor.class, "leftRear");
         DcMotor intake = hardwareMap.get(DcMotor.class, "intake");
         Servo shooter = hardwareMap.get(Servo.class, "shooter");
-        Servo bucket = hardwareMap.get(Servo.class, "bucket");
+        Servo bucket2 = hardwareMap.get(Servo.class, "bucket");
         Servo stopper = hardwareMap.get(Servo.class, "stopper");
         DcMotor hang = hardwareMap.get(DcMotor.class, "hang");
         DcMotorEx hangArm = hardwareMap.get(DcMotorEx.class, "hangArm");
@@ -35,40 +35,62 @@ public class Beta_TeleOp extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         imu.initialize(parameters);
 
-        leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        belt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightRearMotor.setDirection(DcMotor.Direction.REVERSE);
 
         hangArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hangArm.setVelocityPIDFCoefficients(20,0,0,0);
-
         waitForStart();
         stopper.setPosition(.2);
         while (opModeIsActive()) {
-
-            double y = -gamepad1.left_stick_x;
-            double x = gamepad1.left_stick_y;
+//            double y = gamepad1.left_stick_x * .8;
+//            double x = gamepad1.left_stick_y * .8;
+//            double rx = gamepad1.right_stick_x * .8;
+//
+//            if(gamepad1.left_trigger > 0) {
+//                y *= .5;
+//                x *= .5;
+//                rx *= .5;
+//            }
+//            if(gamepad1.back) {
+//                imu.resetYaw();
+//            }
+//            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+//
+//            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+//            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+//
+//            rotX = rotX * 1.1;
+//
+//            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+//            double frontLeftPower = (rotY + rotX + rx) / denominator;
+//            double backLeftPower = (rotY - rotX + rx) / denominator;
+//            double frontRightPower = (rotY - rotX - rx) / denominator;
+//            double backRightPower = (rotY + rotX - rx) / denominator;
+//
+//            leftFrontMotor.setPower(frontLeftPower);
+//            leftRearMotor.setPower(backLeftPower);
+//            rightFrontMotor.setPower(frontRightPower);
+//            rightRearMotor.setPower(backRightPower);
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
-
+            y *= .5;
+            x *= .5;
+            rx *= .5;
             if(gamepad1.left_trigger > 0) {
                 y *= .5;
                 x *= .5;
                 rx *= .5;
             }
-
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-
-            rotX = rotX * 1.1;
-
-            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double frontLeftPower = (rotY + rotX + rx) / denominator;
-            double backLeftPower = (rotY - rotX + rx) / denominator;
-            double frontRightPower = (rotY - rotX - rx) / denominator;
-            double backRightPower = (rotY + rotX - rx) / denominator;
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio,
+            // but only if at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
 
             leftFrontMotor.setPower(frontLeftPower);
             leftRearMotor.setPower(backLeftPower);
@@ -76,7 +98,7 @@ public class Beta_TeleOp extends LinearOpMode {
             rightRearMotor.setPower(backRightPower);
 
             if(gamepad1.left_bumper) {
-                intake.setPower(-.8);
+                intake.setPower(-.6);
             }
             if(gamepad1.right_bumper) {
                 intake.setPower(0);
@@ -102,15 +124,15 @@ public class Beta_TeleOp extends LinearOpMode {
             }
 
             if(belt.getCurrentPosition() > 100) {
-                bucket.setPosition(.6);
+                bucket2.setPosition(.1);
             } else {
-                bucket.setPosition(.3);
+                bucket2.setPosition(.4);
             }
 
             if(gamepad2.a) {
-                stopper.setPosition(.2);
+                stopper.setPosition(.3);
             }
-
+            //./adb connect 192.168.43.1:5555
             if(gamepad2.right_trigger > 0) {
                 stopper.setPosition(0);
                 belt.setPower(.6);
@@ -119,12 +141,18 @@ public class Beta_TeleOp extends LinearOpMode {
             }
 
             if(gamepad2.left_trigger > 0) {
-                stopper.setPosition(.2);
+                stopper.setPosition(.3);
                 belt.setPower(.6);
                 belt.setTargetPosition(0);
                 belt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
-            telemetry.addData("hangarm",hangArm.getCurrentPosition());
+
+            if(gamepad2.back) {
+                belt.setPower(-.4);
+                sleep(1000);
+                belt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+            telemetry.addData("belt",belt.getCurrentPosition());
             telemetry.update();
         }
             belt.setPower(0.0);
