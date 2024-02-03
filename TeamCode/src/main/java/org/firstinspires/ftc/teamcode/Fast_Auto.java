@@ -53,9 +53,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 
-@Autonomous(name="RED-Left", group="Alpha")
+@Autonomous(name="Fast-Auto", group="Alpha")
 
-public class RED_Left extends LinearOpMode {
+public class Fast_Auto extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -66,7 +66,7 @@ public class RED_Left extends LinearOpMode {
 
     private int zone = 3; // Default if Team Prop not found
 
-    private int watchTime = 5; // Watch for 5 seconds
+    private int watchTime = 3; // Watch for 5 seconds
 
     /* Declare Camera Fields */
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -105,28 +105,19 @@ public class RED_Left extends LinearOpMode {
             telemetry.update();
         }
 
+        runtime.reset();
+        while ((runtime.seconds() < watchTime)) {
+            telemetryTfod();
+
+            telemetry.update();
+
+        }
+
 
         waitForStart();
 
         if (opModeIsActive()) {
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < watchTime)) {
-
-                telemetryTfod();
-
-                // Push telemetry to the Driver Station.
-                telemetry.update();
-
-                // Save CPU resources; can resume streaming when needed.
-                if (gamepad1.dpad_down) {
-                    visionPortal.stopStreaming();
-                } else if (gamepad1.dpad_up) {
-                    visionPortal.resumeStreaming();
-                }
-
-                // Share the CPU.
-                sleep(20);
-            }
+            visionPortal.close();
         }
 
         // Save more CPU resources when camera is no longer needed.
