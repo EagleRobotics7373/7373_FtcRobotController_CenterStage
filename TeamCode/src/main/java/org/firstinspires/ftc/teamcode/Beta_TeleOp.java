@@ -5,11 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @TeleOp
@@ -29,6 +31,9 @@ public class Beta_TeleOp extends LinearOpMode {
         DcMotorEx hangArm = hardwareMap.get(DcMotorEx.class, "hangArm");
         DcMotor belt = hardwareMap.get(DcMotor.class, "belt");
         IMU imu = hardwareMap.get(IMU.class, "imu");
+        DistanceSensor distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+
+        RevBlinkinLedDriver ledLights = hardwareMap.get(RevBlinkinLedDriver.class,"ledLights");
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
@@ -152,6 +157,14 @@ public class Beta_TeleOp extends LinearOpMode {
                 sleep(1000);
                 belt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
+
+            if (distanceSensor.getDistance(DistanceUnit.INCH) < 8) {
+                ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+            } else if (distanceSensor.getDistance(DistanceUnit.INCH) > 8.01 && distanceSensor.getDistance(DistanceUnit.INCH) < 10 ) {
+                ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+            } else
+                ledLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+
             telemetry.addData("belt",belt.getCurrentPosition());
             telemetry.update();
         }
